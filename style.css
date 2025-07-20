@@ -1,0 +1,128 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Estilo do topo */
+.topo {
+  position: fixed;
+  top: -5px; /* Ajuste para esconder o topo inicialmente */
+  width: 100%;
+  left: 0;
+  background-color: #8889a8;
+  color: #e51b1b;
+  text-align: center;
+  padding: 15px;
+  transition: top 0.3s ease-in-out;
+}
+
+.topo.mostrar {
+  top: 0;
+}
+
+/* Estilo do conteúdo */
+.conteudo {
+  margin-top: 80px; /* Garante que o conteúdo não seja sobreposto pelo topo fixo */
+  background-color: #555;
+  padding: 15px;
+  min-height: 800px;
+}
+
+/* Menu horizontal */
+.menu-horizontal {
+  background-color: #333;
+}
+
+.menu-horizontal ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.menu-horizontal li {
+  flex: 1;
+}
+
+.menu-horizontal a {
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.menu-horizontal a:hover {
+  background-color: #555;
+}
+
+/* Formulário */
+.formulario-container {
+  max-width: 800px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+}
+
+input,
+textarea,
+select {
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #0f872b;
+}
+
+input[type="reset"] {
+  background-color: #ef1212;
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="reset"]:hover {
+  background-color: #782626;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .menu-horizontal ul {
+    flex-direction: column;
+  }
+
+  .menu-horizontal li {
+    width: 100%;
+  }
+
+  input[type="submit"],
+  input[type="reset"] {
+    width: 100%;
+  }
+}

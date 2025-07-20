@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>SGSTI-WEB</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://192.168.100.33/sgsti.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="topo mb-3">
+        <nav class="menu-horizontal">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://192.168.100.33/sgsti/index.php">.:INDICADORES:.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://192.168.100.33/sgsti/consulta_os.php">.:PRODUTIVIDADE:.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://192.168.100.33/unidades/pesquisar.php">.:UNIDADES:.</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://192.168.100.33/sgsti/bc.php">.:BC:.</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <h2 class="text-center">Consulta de Atendimentos por Data</h2>
+
+    <form id="consultaForm" method="post" class="form-group" action="consulta_new.php">
+        <label for="data_consulta">Selecione a Data:</label>
+        <input type="date" id="data_consulta" name="data_consulta" class="form-control" required>
+        <br>
+        <div class="text-center">
+            <button class="btn btn-success" type="button" id="buscarBtn">BUSCAR</button>
+            <button type="reset" class="btn btn-danger">LIMPAR</button>
+        </div>
+    </form>
+
+    <div class="mt-4">
+        <table class="table table-bordered" id="resultTable">
+            <thead class="thead-dark">
+                <tr>
+                    <th>O.S.</th>
+                    <th>Grupo</th>
+                    <th>UF</th>
+                    <th>Situação</th>
+                </tr>
+            </thead>
+            <tbody id="resultBody">
+                <!-- Dados serão inseridos aqui via JavaScript -->
+            </tbody>
+        </table>
+        <div id="noResultsMessage" class="alert alert-warning d-none">Nenhum resultado encontrado para a data selecionada.</div>
+    </div>
+</div>
+
+<script>
+// Função para buscar dados da API PHP e atualizar a tabela
+function buscarDados() {
+    const dataConsulta = document.getElementById('data_consulta').value;
+    if (!dataConsulta) {
+        alert("Por favor, selecione uma data.");
+        return;
+    }
+
+    fetch(`backend.php?data_consulta=${dataConsulta}`)
+        .then(response => response.json())
+        .then(data => {
+            const resultBody = document.getElementById('resultBody');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            resultBody.innerHTML = ''; // Limpa a tabela anterior
+
+            if (data.length > 0) {
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.os}</td>
+                        <td>${row.grupo}</td>
+                        <td>${row.uf}</td>
+                        <td>${row.situacao}</td>
+                    `;
+                    resultBody.appendChild(tr);
+                });
+                noResultsMessage.classList.add('d-none');
+            } else {
+                noResultsMessage.classList.remove('d-none');
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao buscar dados:", error);
+        });
+}
+
+// Função para atualizar a tabela a cada 5 minutos
+setInterval(buscarDados, 300000); // 5 minutos = 300.000 milissegundos
+
+// Evento de clique no botão "BUSCAR"
+document.getElementById('buscarBtn').addEventListener('click', buscarDados);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

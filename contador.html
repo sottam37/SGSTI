@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador Regressivo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .time {
+            font-size: 5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .time span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .time span p {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .label {
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="time">
+            <span>
+                <div id="hours">00</div>
+                <p class="label">Horas</p>
+            </span>
+            <span>
+                <div id="minutes">00</div>
+                <p class="label">Minutos</p>
+            </span>
+            <span>
+                <div id="seconds">00</div>
+                <p class="label">Segundos</p>
+            </span>
+        </div>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // Define o tempo inicial: 1 hora (em segundos)
+        let timeRemaining = 3600;
+
+        function updateTimer() {
+            // Calcula horas, minutos e segundos
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+
+            // Atualiza os elementos no DOM
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+            // Exibe mensagem quando o contador chega a zero
+            if (timeRemaining <= 0) {
+                document.getElementById('message').textContent = 'Tempo esgotado!';
+                clearInterval(timerInterval);
+            }
+
+            // Reduz o tempo restante
+            timeRemaining--;
+        }
+
+        // Inicia o contador
+        const timerInterval = setInterval(updateTimer, 1000);
+
+        // Chama a função imediatamente para evitar atraso
+        updateTimer();
+    </script>
+</body>
+</html>
